@@ -1,115 +1,105 @@
 VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
 Begin VB.Form Form1 
-   Caption         =   "Form1"
-   ClientHeight    =   3960
+   ClientHeight    =   8895
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   9330
+   ClientWidth     =   14250
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3960
-   ScaleWidth      =   9330
+   ScaleHeight     =   8895
+   ScaleWidth      =   14250
    StartUpPosition =   3  'Windows Default
    Begin VB.Frame Frame1 
       Caption         =   "from Teensy"
-      Height          =   3255
-      Left            =   4440
-      TabIndex        =   6
-      Top             =   240
-      Width           =   4455
-      Begin VB.TextBox Text6 
-         Height          =   495
-         Left            =   600
-         TabIndex        =   10
-         Text            =   "Text3"
-         Top             =   2280
-         Width           =   3615
-      End
+      Height          =   8775
+      Left            =   3600
+      TabIndex        =   5
+      Top             =   120
+      Width           =   4575
       Begin VB.TextBox Text5 
-         Height          =   495
-         Left            =   600
-         TabIndex        =   9
-         Text            =   "Text3"
+         Height          =   7095
+         Left            =   360
+         MultiLine       =   -1  'True
+         TabIndex        =   8
          Top             =   1680
          Width           =   3615
       End
       Begin VB.TextBox Text4 
          Height          =   495
-         Left            =   600
-         TabIndex        =   8
-         Text            =   "Text3"
-         Top             =   1080
+         Left            =   360
+         TabIndex        =   7
+         Top             =   960
          Width           =   3615
       End
       Begin VB.TextBox Text3 
          Height          =   495
-         Left            =   600
-         TabIndex        =   7
-         Text            =   "Text3"
-         Top             =   480
+         Left            =   360
+         TabIndex        =   6
+         Top             =   240
          Width           =   3615
       End
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Send"
       Height          =   495
-      Left            =   2760
-      TabIndex        =   5
-      Top             =   1920
+      Left            =   2400
+      TabIndex        =   4
+      Top             =   1080
       Width           =   1095
    End
    Begin VB.CommandButton Command1 
       Caption         =   "Send"
       Height          =   495
-      Left            =   2760
-      TabIndex        =   4
-      Top             =   1200
+      Left            =   2400
+      TabIndex        =   3
+      Top             =   360
       Width           =   1095
    End
    Begin VB.TextBox Text2 
       Height          =   495
-      Left            =   240
-      TabIndex        =   3
+      Left            =   120
+      TabIndex        =   2
       Text            =   "Second"
-      Top             =   1920
+      Top             =   1080
       Width           =   2175
    End
    Begin VB.Timer Timer1 
-      Interval        =   50
-      Left            =   1560
-      Top             =   3000
+      Interval        =   500
+      Left            =   10560
+      Top             =   3840
    End
    Begin VB.TextBox Text1 
       Height          =   495
-      Left            =   240
+      Left            =   120
       TabIndex        =   0
       Text            =   "First"
-      Top             =   1200
+      Top             =   360
       Width           =   2175
    End
    Begin MSCommLib.MSComm MSComm1 
-      Left            =   2160
-      Top             =   2880
+      Left            =   11160
+      Top             =   3720
       _ExtentX        =   1005
       _ExtentY        =   1005
       _Version        =   393216
       DTREnable       =   -1  'True
    End
-   Begin VB.Label Label2 
-      Caption         =   "Label2"
-      Height          =   495
-      Left            =   2040
-      TabIndex        =   2
-      Top             =   240
-      Width           =   1335
-   End
    Begin VB.Label Label1 
       Caption         =   "Label1"
-      Height          =   495
-      Left            =   480
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   6975
+      Left            =   240
       TabIndex        =   1
-      Top             =   240
-      Width           =   1215
+      Top             =   1800
+      Width           =   2535
    End
 End
 Attribute VB_Name = "Form1"
@@ -134,19 +124,19 @@ End Sub
 
 Private Sub Form_Load()
 Randomize (Now)
- With MSComm1
- If .PortOpen Then .PortOpen = False
+ 'With MSComm1
+ 'If .PortOpen Then .PortOpen = False
  
-        .CommPort = 3
-        .Settings = "9600 , N, 8, 1"
-        .RTSEnable = True
-        .DTREnable = True
+'        .CommPort = 3
+ '       .Settings = "9600 , N, 8, 1"
+  '      .RTSEnable = True
+   '     .DTREnable = True
         
-        .RThreshold = 1
-        .SThreshold = 0
+    '    .RThreshold = 1
+     '   .SThreshold = 0
         
-        .PortOpen = True
-    End With
+      '  .PortOpen = True
+   ' End With
 End Sub
 
 Private Sub MSComm1_OnComm()
@@ -178,7 +168,7 @@ If MSComm1.CommEvent = comEvReceive Then
        Text3 = Output(0)
        Text4 = Output(1)
        Text5 = Output(2)
-       Text6 = Output(3)
+       
        
        
        
@@ -188,10 +178,21 @@ End If
 End Sub
 
 Private Sub Timer1_Timer()
-Label1.Caption = (Rnd() * 20000) - 10000
-Label2.Caption = (Rnd() * 20000) - 10000
+Label1.Caption = Int(Rnd() * 20000) - 10000
+Label1.Caption = Label1.Caption & "."
+Label1.Caption = Label1.Caption & Format(Int(Rnd() * 1000000), "000000")
 
-MSComm1.Output = Label1.Caption + Chr(13) + Label2.Caption + Chr(13)
+For i = 0 To 19
+Label1.Caption = Label1.Caption & Chr(13) & Int(Rnd() * 20000) - 10000
+Label1.Caption = Label1.Caption & "."
+Label1.Caption = Label1.Caption & Format(Int(Rnd() * 1000000), "000000")
+
+Text5 = "asdsad" & vbCrLf & "asdsad"
+
+Next i
+
+
+'MSComm1.Output = Label1.Caption
 
 
 End Sub
