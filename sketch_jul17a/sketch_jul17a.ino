@@ -10,7 +10,7 @@ void setup() {
   while (!Serial)
   {}
   delay(1000);
-    HWSERIAL.println("Teensy no Com`Teensy no Com`Teensyno Com` Teensyno com");
+    HWSERIAL.println("Teensy no Com`Teensy no Com`Teensyno Com");
     
     randomSeed(analogRead(0));
     
@@ -22,23 +22,23 @@ char incomingBytes[1000];
 void loop() {
 count++;
 int incomingByte;
- char string1[100]="Teensyduino without COM port";
+ char string1[1000]="Teensyduino without COM port";
   char string2[100]="Congratulations!";
-  char string3[20], string4[20];
+  char string3[20];
 if (count % 100 == 0)
 {
-  randNumber1 = random(-10000, 10000);
-  randNumber2 = random(-10000, 10000);
- 
-  dtostrf(randNumber1, 6, 3, string3);
-  dtostrf(randNumber2, 6, 3, string4);
   
   strcat(string1, "`");
   strcat(string1, string2);
   strcat(string1, "`");
-  strcat(string1, string3);
-  strcat(string1, "`");
-  strcat(string1, string4);
+  for (int i=0;i<20;i++)
+  {
+    randNumber1 = random(-10000, 10000);
+    dtostrf(randNumber1, 4, 6, string3);
+    strcat(string1, string3);
+    strcat(string1, "\n");
+  }
+  
   count = 0;
   
 }
